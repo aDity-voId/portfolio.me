@@ -12,9 +12,15 @@ function App() {
   return (
     <SmoothScroll>
       <CustomCursor />
+      {/* Background Ambience */}
       <div className="grain" />
+      <div className="neon-glow-bg">
+        <div className="neon-orb-1" />
+        <div className="neon-orb-2" />
+      </div>
+
       <Navbar />
-      <main>
+      <main className="relative z-10">
         <Hero />
         <Work />
         <About />

@@ -4,18 +4,18 @@ const CustomCursor: React.FC = () => {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const requestRef = useRef<number>(undefined);
-  
+
   const [isVisible, setIsVisible] = useState(false);
-  
+
   const mouse = useRef({ x: 0, y: 0 });
   const ring = useRef({ x: 0, y: 0 });
-  
+
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
     // Only run on desktop
     if (window.innerWidth < 1024) return;
-    
+
     // Check if touch device
     if (window.matchMedia('(pointer: coarse)').matches) return;
 
@@ -27,15 +27,19 @@ const CustomCursor: React.FC = () => {
     };
 
     const updateCursor = () => {
-      // Lerp for the ring
-      ring.current.x += (mouse.current.x - ring.current.x) * 0.15;
-      ring.current.y += (mouse.current.y - ring.current.y) * 0.15;
+      // Smooth lerp for outer neon ring
+      ring.current.x += (mouse.current.x - ring.current.x) * 0.18;
+      ring.current.y += (mouse.current.y - ring.current.y) * 0.18;
 
       if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(${mouse.current.x}px, ${mouse.current.y}px, 0) translate(-50%, -50%) ${isHovering ? 'scale(0.5)' : 'scale(1)'}`;
+        dotRef.current.style.transform = `translate3d(${mouse.current.x}px, ${mouse.current.y}px, 0) translate(-50%, -50%) ${
+          isHovering ? 'scale(0.5)' : 'scale(1)'
+        }`;
       }
       if (ringRef.current) {
-        ringRef.current.style.transform = `translate3d(${ring.current.x}px, ${ring.current.y}px, 0) translate(-50%, -50%) ${isHovering ? 'scale(1.5)' : 'scale(1)'}`;
+        ringRef.current.style.transform = `translate3d(${ring.current.x}px, ${ring.current.y}px, 0) translate(-50%, -50%) ${
+          isHovering ? 'scale(1.8)' : 'scale(1)'
+        }`;
       }
 
       requestRef.current = requestAnimationFrame(updateCursor);
@@ -46,6 +50,9 @@ const CustomCursor: React.FC = () => {
       if (
         target.tagName.toLowerCase() === 'a' ||
         target.tagName.toLowerCase() === 'button' ||
+        target.tagName.toLowerCase() === 'input' ||
+        target.tagName.toLowerCase() === 'textarea' ||
+        target.tagName.toLowerCase() === 'select' ||
         target.closest('a') ||
         target.closest('button') ||
         target.dataset.cursor === 'pointer'
@@ -74,11 +81,15 @@ const CustomCursor: React.FC = () => {
     <>
       <div
         ref={ringRef}
-        className="fixed top-0 left-0 w-[30px] h-[30px] rounded-full border-2 border-[var(--color-accent)] pointer-events-none z-[100] transition-transform duration-100 ease-out will-change-transform"
+        className={`fixed top-0 left-0 w-[34px] h-[34px] rounded-full pointer-events-none z-[100] transition-colors duration-200 will-change-transform ${
+          isHovering
+            ? 'border-2 border-[#00f0ff] bg-[#00f0ff]/10 shadow-[0_0_20px_rgba(0,240,255,0.6)]'
+            : 'border border-[#00f0ff]/60 shadow-[0_0_12px_rgba(0,240,255,0.3)]'
+        }`}
       />
       <div
         ref={dotRef}
-        className="fixed top-0 left-0 w-[8px] h-[8px] rounded-full bg-[var(--color-accent)] pointer-events-none z-[100] transition-transform duration-100 ease-out will-change-transform"
+        className="fixed top-0 left-0 w-[6px] h-[6px] rounded-full bg-[#00f0ff] shadow-[0_0_8px_#00f0ff] pointer-events-none z-[100] will-change-transform"
       />
     </>
   );

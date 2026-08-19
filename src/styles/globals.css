@@ -1,21 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import 'tailwindcss';
 
 @theme {
-  --color-bg-primary: #0a0a0f;
-  --color-bg-secondary: #111118;
-  --color-accent: #8b5cf6;
-  --color-accent-light: #a78bfa;
-  --color-text-primary: #f0f0f5;
-  --color-text-secondary: #8888a0;
-  --color-text-muted: #555570;
-  --color-border: rgba(255, 255, 255, 0.06);
+  --color-bg-primary: #06070d;
+  --color-bg-secondary: #0b0d17;
+  --color-bg-glass: rgba(13, 16, 28, 0.65);
+  
+  --color-accent: #00f0ff;
+  --color-accent-cyan: #00f0ff;
+  --color-accent-violet: #a855f7;
+  --color-accent-pink: #f43f5e;
+  --color-accent-emerald: #00ff9d;
+  
+  --color-text-primary: #f8faff;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #64748b;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-neon: rgba(0, 240, 255, 0.3);
+  
   --font-display: 'Space Grotesk', sans-serif;
   --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
 html {
   scroll-behavior: smooth;
+  background-color: var(--color-bg-primary);
 }
 
 body {
@@ -27,32 +37,72 @@ body {
 }
 
 ::selection {
-  background-color: var(--color-accent);
-  color: #fff;
+  background-color: #00f0ff;
+  color: #06070d;
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-bg-primary);
+  background: #06070d;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-bg-secondary);
-  border-radius: 4px;
+  background: #1e293b;
+  border-radius: 9999px;
+  border: 1px solid rgba(0, 240, 255, 0.2);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-muted);
+  background: #00f0ff;
+  box-shadow: 0 0 10px #00f0ff;
+}
+
+/* Neon Glassmorphism Classes */
+.glass-panel {
+  background: rgba(11, 14, 25, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card-neon {
+  background: rgba(11, 15, 28, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-neon:hover {
+  border-color: rgba(0, 240, 255, 0.45);
+  background: rgba(13, 18, 35, 0.8);
+  box-shadow: 0 0 35px -5px rgba(0, 240, 255, 0.18), inset 0 0 15px rgba(0, 240, 255, 0.05);
+  transform: translateY(-4px);
+}
+
+.neon-text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(135deg, #00f0ff 0%, #a855f7 50%, #f43f5e 100%);
 }
 
 .text-gradient {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-image: linear-gradient(to right, var(--color-accent), var(--color-accent-light));
+  background-image: linear-gradient(135deg, #00f0ff 0%, #a855f7 100%);
+}
+
+.neon-glow-cyan {
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.35);
+}
+
+.neon-glow-violet {
+  box-shadow: 0 0 25px rgba(168, 85, 247, 0.35);
 }
 
 .grain {
@@ -62,9 +112,47 @@ body {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: 50;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  z-index: 99;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Ambient Neon Glow Orbs in Background */
+.neon-glow-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.neon-orb-1 {
+  position: absolute;
+  top: 10%;
+  left: 15%;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.08) 0%, transparent 70%);
+  filter: blur(60px);
+  animation: pulse-slow 8s ease-in-out infinite alternate;
+}
+
+.neon-orb-2 {
+  position: absolute;
+  top: 60%;
+  right: 10%;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.09) 0%, transparent 70%);
+  filter: blur(80px);
+  animation: pulse-slow 10s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-slow {
+  0% { transform: scale(1) translate(0, 0); opacity: 0.7; }
+  100% { transform: scale(1.15) translate(30px, -20px); opacity: 1; }
 }
 
 @keyframes float {
